@@ -19,9 +19,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+import static com.davigj.brushstrokes.core.registry.BSComponents.START_POS;
+
 public class WaxBrushItem extends Item {
     public static final int MAX_WAX_CONVERTS = 1096;
-    private static final String START_POS = "Pos";
 
     public WaxBrushItem(Properties properties) {
         super(properties);
@@ -36,29 +37,29 @@ public class WaxBrushItem extends Item {
         if (player == null) return InteractionResult.FAIL;
 
         BlockPos clickedPos = ctx.getClickedPos();
-        CompoundTag tag = stack.getOrCreateTag();
+        var tag = stack.getComponents();
 
-        if (!tag.contains(START_POS)) {
-            tag.putLong(START_POS, clickedPos.asLong());
+        if (!tag.has(START_POS)) {
+            stack.set(START_POS, clickedPos);
 
-            if (level.isClientSide) {
+            if (level.isClientSide()) {
                 player.displayClientMessage(Component.translatable("message.brushstrokes.selection_start"), true);
             }
             return InteractionResult.SUCCESS;
         }
 
-        BlockPos start = BlockPos.of(tag.getLong(START_POS));
+        BlockPos start = stack.get(START_POS);
 
-        tag.remove(START_POS);
+        stack.remove(START_POS);
 
         if (player.isCrouching()) {
-            if (level.isClientSide) {
+            if (level.isClientSide()) {
                 player.displayClientMessage(Component.translatable("message.brushstrokes.selection_cleared"), true);
             }
             return InteractionResult.SUCCESS;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             applyWax(level, player, stack, start, clickedPos, ctx.getHand());
         }
 
@@ -66,7 +67,7 @@ public class WaxBrushItem extends Item {
     }
 
     private void applyWax(Level level, Player player, ItemStack stack, BlockPos start, BlockPos end, InteractionHand hand) {
-        AABB box = new AABB(start, end);
+        AABB box = AABB.encapsulatingFullBlocks(start, end);
         int volume = (int) ((box.maxX - box.minX + 1) * (box.maxY - box.minY + 1) * (box.maxZ - box.minZ + 1));
 
         if (volume > MAX_WAX_CONVERTS) {
@@ -104,10 +105,7 @@ public class WaxBrushItem extends Item {
         }
 
         if (transformed > 0 && !creative) {
-            stack.hurtAndBreak(transformed, player, p -> {
-                p.broadcastBreakEvent(hand);
-                p.setItemInHand(hand, new ItemStack(Items.BRUSH));
-            });
+            stack.hurtAndBreak(transformed, player, hand);
         }
 
         WaxResult result;

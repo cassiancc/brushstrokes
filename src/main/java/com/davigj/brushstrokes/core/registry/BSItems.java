@@ -2,28 +2,27 @@ package com.davigj.brushstrokes.core.registry;
 
 import com.davigj.brushstrokes.common.item.WaxBrushItem;
 import com.davigj.brushstrokes.core.BrushStrokes;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.util.function.Supplier;
-
 
 public class BSItems {
-    public static final DeferredRegister<Item> ITEMS;
-    public static final RegistryObject<Item> WAX_BRUSH;
+    public static final Item WAX_BRUSH;
 
     static {
-        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrushStrokes.MOD_ID);
-        WAX_BRUSH = register("wax_brush", () -> new WaxBrushItem(new Item.Properties().stacksTo(1).durability(200)));
+        WAX_BRUSH = register("wax_brush", new WaxBrushItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, BrushStrokes.asResource("wax_brush"))).stacksTo(1).durability(200)));
     }
 
     public BSItems() {
     }
 
-    public static RegistryObject<Item> register(String name, Supplier<Item> supplier) {
-        return ITEMS.register(name, supplier);
+    public static Item register(String name, Item supplier) {
+        return Registry.register(BuiltInRegistries.ITEM, BrushStrokes.asResource(name), supplier);
     }
 
+	public static void register() {
+
+	}
 }

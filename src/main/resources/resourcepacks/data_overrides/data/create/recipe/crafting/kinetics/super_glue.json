@@ -6,16 +6,16 @@
       "item": "minecraft:brush"
     },
     {
-      "tag": "forge:slimeballs"
+      "tag": "c:slime_balls"
     },
     {
-      "tag": "forge:slimeballs"
+      "tag": "c:slime_balls"
     },
     {
-      "tag": "forge:slimeballs"
+      "tag": "c:slime_balls"
     }
   ],
   "result": {
-    "item": "create:super_glue"
+    "id": "create:super_glue"
   }
 }

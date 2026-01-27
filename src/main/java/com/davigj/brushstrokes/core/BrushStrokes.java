@@ -1,106 +1,44 @@
 package com.davigj.brushstrokes.core;
 
 import com.davigj.brushstrokes.client.SelectionHandler;
+import com.davigj.brushstrokes.core.registry.BSComponents;
 import com.davigj.brushstrokes.core.registry.BSCreativePlacements;
 import com.davigj.brushstrokes.core.registry.BSItems;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.PathPackResources;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.resources.Identifier;
 
-@Mod(BrushStrokes.MOD_ID)
-public class BrushStrokes {
+public class BrushStrokes implements ModInitializer {
     public static final String MOD_ID = "brushstrokes";
     public static SelectionHandler SELECTION_HANDLER;
 
-    public BrushStrokes() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModLoadingContext context = ModLoadingContext.get();
-        MinecraftForge.EVENT_BUS.register(this);
 
-        BSItems.ITEMS.register(bus);
-        bus.addListener(BSCreativePlacements::set);
+    @Override
+    public void onInitialize() {
 
-        bus.addListener(this::addOverridePacks);
-        bus.addListener(this::commonSetup);
-        bus.addListener(this::clientSetup);
-        bus.addListener(this::dataSetup);
-        context.registerConfig(ModConfig.Type.COMMON, BSConfig.COMMON_SPEC);
+        BSComponents.register();
+        BSItems.register();
+        BSCreativePlacements.set();
+
+        addOverridePacks();
     }
 
-    private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-
-        });
+    public static void clientSetup() {
+        SELECTION_HANDLER = new SelectionHandler();
     }
 
-    private void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            SELECTION_HANDLER = new SelectionHandler();
-        });
+    private void addOverridePacks() {
+        var packTitle = Component.literal("Brush Strokes Overrides");
+        ModContainer container = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow();
+        ResourceManagerHelper.registerBuiltinResourcePack(Identifier.fromNamespaceAndPath(MOD_ID, "overrides"), container, packTitle, ResourcePackActivationType.NORMAL);
+        ResourceManagerHelper.registerBuiltinResourcePack(Identifier.fromNamespaceAndPath(MOD_ID, "data_overrides"), container, packTitle, ResourcePackActivationType.NORMAL);
     }
 
-    private void dataSetup(GatherDataEvent event) {
-
-    }
-
-    private void addOverridePacks(AddPackFindersEvent event) {
-        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            var resourcePath = ModList.get().getModFileById(MOD_ID).getFile().findResource("overrides");
-
-            var packId = "brushstrokes_overrides";
-            var packTitle = Component.literal("Brush Strokes Overrides");
-
-            var packInfo = Pack.readMetaAndCreate(
-                    packId,
-                    packTitle,
-                    true,
-                    (id) -> new PathPackResources(id, resourcePath, true),
-                    PackType.CLIENT_RESOURCES,
-                    Pack.Position.TOP,
-                    PackSource.BUILT_IN
-            );
-
-            if (packInfo != null) {
-                event.addRepositorySource((consumer) -> consumer.accept(packInfo));
-            }
-        } else if (event.getPackType() == PackType.SERVER_DATA) {
-            var resourcePath = ModList.get().getModFileById(MOD_ID).getFile().findResource("data_overrides");
-
-            var packId = "brushstrokes_data_overrides";
-            var packTitle = Component.literal("Brush Strokes Data Overrides");
-
-
-            var packInfo = Pack.readMetaAndCreate(
-                    packId,
-                    packTitle,
-                    true,
-                    (id) -> new PathPackResources(id, resourcePath, true),
-                    PackType.SERVER_DATA,
-                    Pack.Position.TOP,
-                    PackSource.BUILT_IN
-            );
-
-            if (packInfo != null) {
-                event.addRepositorySource((consumer) -> consumer.accept(packInfo));
-            }
-        }
-    }
-
-    public static ResourceLocation asResource(String path) {
-        return new ResourceLocation(MOD_ID, path);
+    public static Identifier asResource(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

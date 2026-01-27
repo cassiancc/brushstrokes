@@ -1,21 +1,23 @@
 package com.davigj.brushstrokes.core.events;
 
 import com.davigj.brushstrokes.core.BrushStrokes;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber({Dist.CLIENT})
-public class BSClientEvents {
-    @SubscribeEvent
-    public static void onTick(TickEvent.ClientTickEvent event) {
-        if (isGameActive()) {
-            if (event.phase == TickEvent.Phase.END) {
+public class BSClientEvents implements ClientModInitializer {
+
+    @Override
+    public void onInitializeClient() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (isGameActive()) {
                 BrushStrokes.SELECTION_HANDLER.tick();
             }
-        }
+        });
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            BrushStrokes.clientSetup();
+        });
     }
 
     protected static boolean isGameActive() {

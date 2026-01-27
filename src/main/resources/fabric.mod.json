@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "brushstrokes",
+	"version": "${version}",
+	"name": "Brushstrokes",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"DavigJ",
+		"evanbones",
+		"cassiancc"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "logo.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.davigj.brushstrokes.core.BrushStrokes"
+		],
+		"client": [
+			"com.davigj.brushstrokes.core.events.BSClientEvents"
+		]
+	},
+	"mixins": [
+		"brushstrokes.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": ">1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
