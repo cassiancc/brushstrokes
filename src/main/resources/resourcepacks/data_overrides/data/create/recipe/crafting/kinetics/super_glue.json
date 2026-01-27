@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:brush"
-    },
-    {
-      "tag": "c:slime_balls"
-    },
-    {
-      "tag": "c:slime_balls"
-    },
-    {
-      "tag": "c:slime_balls"
-    }
+    "minecraft:brush",
+    "#c:slime_balls",
+    "#c:slime_balls",
+    "#c:slime_balls"
   ],
   "result": {
     "id": "create:super_glue"

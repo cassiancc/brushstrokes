@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:brush"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+    "minecraft:brush",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb",
+    "minecraft:honeycomb"
   ],
   "result": {
     "id": "brushstrokes:wax_brush"
