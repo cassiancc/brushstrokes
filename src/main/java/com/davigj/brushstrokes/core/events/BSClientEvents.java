@@ -2,19 +2,17 @@ package com.davigj.brushstrokes.core.events;
 
 import com.davigj.brushstrokes.core.BrushStrokes;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@Mod.EventBusSubscriber({Dist.CLIENT})
+@EventBusSubscriber({Dist.CLIENT})
 public class BSClientEvents {
     @SubscribeEvent
-    public static void onTick(TickEvent.ClientTickEvent event) {
+    public static void onTick(ClientTickEvent.Post event) {
         if (isGameActive()) {
-            if (event.phase == TickEvent.Phase.END) {
-                BrushStrokes.SELECTION_HANDLER.tick();
-            }
+            BrushStrokes.SELECTION_HANDLER.tick();
         }
     }
 
