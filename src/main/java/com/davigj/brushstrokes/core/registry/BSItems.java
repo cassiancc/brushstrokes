@@ -12,7 +12,7 @@ public class BSItems {
     public static final Item WAX_BRUSH;
 
     static {
-        WAX_BRUSH = register("wax_brush", new WaxBrushItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, BrushStrokes.asResource("wax_brush"))).stacksTo(1).durability(200)));
+        WAX_BRUSH = register("wax_brush", new WaxBrushItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, BrushStrokes.asResource("wax_brush"))).stacksTo(1).durability(99)));
     }
 
     public BSItems() {
