@@ -7,7 +7,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import static com.davigj.brushstrokes.core.registry.BSComponents.POS;
+import static com.davigj.brushstrokes.core.registry.BSComponents.START_POS;
 
 public class SelectionHandler {
     public SelectionHandler() {
@@ -41,8 +40,8 @@ public class SelectionHandler {
         }
 
         DataComponentMap tag = heldItem.getComponents();
-        if (tag != null && tag.has(POS.get())) {
-            BlockPos startPos = heldItem.get(POS);
+        if (tag.has(START_POS.get())) {
+            BlockPos startPos = heldItem.get(START_POS);
 
             HitResult hitResult = mc.hitResult;
             if (hitResult == null || hitResult.getType() != HitResult.Type.BLOCK) {
@@ -50,7 +49,7 @@ public class SelectionHandler {
             }
             BlockPos currentPos = ((BlockHitResult) hitResult).getBlockPos();
 
-            AABB box = AABB.encapsulatingFullBlocks(startPos, currentPos).expandTowards(1, 1, 1);
+            AABB box = AABB.encapsulatingFullBlocks(startPos, currentPos);
 
             int xLen = (int) (box.maxX - box.minX);
             int yLen = (int) (box.maxY - box.minY);

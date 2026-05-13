@@ -11,12 +11,11 @@ import java.util.function.UnaryOperator;
 
 
 public class BSComponents {
-	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, BrushStrokes.MOD_ID);
+    public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, BrushStrokes.MOD_ID);
 
-	public static final DeferredHolder<DataComponentType<?>,DataComponentType<BlockPos>> START_POS = register("start_pos", (builder) -> builder.persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC));
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> POS = register("pos", (builder) -> builder.persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> START_POS = register("start_pos", (builder) -> builder.persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC));
 
-	public static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
-		return DATA_COMPONENTS.register(name, ()-> builderOperator.apply(DataComponentType.builder()).build());
-	}
+    public static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+        return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
+    }
 }
