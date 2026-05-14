@@ -95,9 +95,10 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	implementation("com.terraformersmc:modmenu:18.0.0-alpha.5")
+	implementation("com.terraformersmc:modmenu:18.0.0-beta.1")
 
 	implementation("maven.modrinth:create-fly:${create_version}")
+	implementation("cc.cassian.rrv:reliable-recipe-viewer-fabric:$rrv_version")
 }
 
 processResources {

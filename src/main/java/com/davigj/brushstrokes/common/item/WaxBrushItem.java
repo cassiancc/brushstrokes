@@ -43,7 +43,7 @@ public class WaxBrushItem extends Item {
             stack.set(START_POS, clickedPos);
 
             if (level.isClientSide()) {
-                player.displayClientMessage(Component.translatable("message.brushstrokes.selection_start"), true);
+                player.sendOverlayMessage(Component.translatable("message.brushstrokes.selection_start"));
             }
             return InteractionResult.SUCCESS;
         }
@@ -54,7 +54,7 @@ public class WaxBrushItem extends Item {
 
         if (player.isCrouching()) {
             if (level.isClientSide()) {
-                player.displayClientMessage(Component.translatable("message.brushstrokes.selection_cleared"), true);
+                player.sendOverlayMessage(Component.translatable("message.brushstrokes.selection_cleared"));
             }
             return InteractionResult.SUCCESS;
         }
@@ -121,7 +121,7 @@ public class WaxBrushItem extends Item {
     }
 
     private void sendFeedback(Player player, WaxResult result) {
-        player.displayClientMessage(Component.translatable(result.key), true);
+        player.sendOverlayMessage(Component.translatable(result.key));
     }
 
     public boolean canAttackBlock(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer) {

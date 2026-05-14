@@ -81,7 +81,7 @@ public class SelectionHandler {
             } else {
                 msg = Component.translatable(msgKey, volume).withStyle(style -> style.withColor(color));
             }
-            player.displayClientMessage(msg, true);
+            player.sendOverlayMessage(msg);
         }
     }
 }
