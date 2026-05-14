@@ -1,7 +1,7 @@
 package com.davigj.brushstrokes.client;
 
 import com.davigj.brushstrokes.core.BrushStrokes;
-import com.zurrtum.create.client.catnip.render.BindableTexture;
+import net.createmod.catnip.api.client.render.BindableTexture;
 import net.minecraft.resources.Identifier;
 
 public enum OverlayTextures implements BindableTexture {
@@ -16,7 +16,7 @@ public enum OverlayTextures implements BindableTexture {
     }
 
     @Override
-    public Identifier getLocation() {
+    public Identifier getId() {
         return this.location;
     }
 }

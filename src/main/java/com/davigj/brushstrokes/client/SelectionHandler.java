@@ -2,7 +2,7 @@ package com.davigj.brushstrokes.client;
 
 import com.davigj.brushstrokes.common.item.WaxBrushItem;
 import com.davigj.brushstrokes.core.registry.BSItems;
-import com.zurrtum.create.client.catnip.outliner.Outliner;
+import net.createmod.catnip.api.client.outliner.Outliner;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
