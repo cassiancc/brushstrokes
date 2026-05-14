@@ -1,6 +1,7 @@
 {
     "pack": {
         "description": "Changes recipe for Create's Super Glue.",
-        "pack_format": 15
+        "min_format": 100,
+        "max_format": 101
     }
 }
